@@ -2104,19 +2104,122 @@ p {
     75% { transform: translateX(5px); }
 }
 
-/* Success States */
-.success-message {
-    background: rgba(76, 175, 80, 0.1);
-    border: 1px solid rgba(76, 175, 80, 0.3);
-    color: #2e7d32;
-    padding: 1rem;
-    border-radius: var(--border-radius-small);
-    text-align: center;
-    animation: successPulse 0.6s ease-in-out;
+/* Art Story Gallery Styles */
+.art-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
 }
 
-@keyframes successPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
+.art-story-item {
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    transition: all 0.4s ease;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.art-story-item:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-strong);
+}
+
+.art-story-item.featured {
+    grid-column: 1 / -1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.art-image-container {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+}
+
+.art-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.art-story-item:hover .art-image {
+    transform: scale(1.05);
+}
+
+.art-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 107, 157, 0.1) 0%,
+        rgba(255, 107, 157, 0.3) 50%,
+        rgba(255, 107, 157, 0.8) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 2rem;
+}
+
+.art-story-item:hover .art-overlay {
+    opacity: 1;
+}
+
+.art-info h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-family: var(--font-script);
+}
+
+.art-info p {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    font-size: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.art-gallery-note {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 2rem;
+    background: rgba(255, 107, 157, 0.1);
+    border-radius: var(--border-radius);
+    border: 2px solid rgba(255, 107, 157, 0.2);
+}
+
+.art-gallery-note p {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    font-style: italic;
+    line-height: 1.8;
+}
+
+/* Responsive Art Gallery */
+@media (max-width: 768px) {
+    .art-gallery {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .art-story-item.featured {
+        grid-column: 1;
+    }
+
+    .art-info h4 {
+        font-size: 1.2rem;
+    }
+
+    .art-info p {
+        font-size: 0.9rem;
+    }
 }

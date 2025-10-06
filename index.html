@@ -2,8 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="description" content="A beautiful love story - From different beginnings to forever together">
+    <meta name="keywords" content="wedding, love story, couple, marriage, video">
+    <meta name="author" content="Veera Sudheer Kumar Patchari & Jyothsna Supirya Venni">
+
+    <!-- Mobile optimization -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Prevent zoom on input focus (iOS) -->
+    <meta name="format-detection" content="telephone=no">
+
     <title>💕 Our Love Story - A Beautiful Journey</title>
 
     <!-- Fonts -->
@@ -28,6 +39,7 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="#hero" class="nav-link">Home</a></li>
+                <li><a href="#story-video" class="nav-link">Our Love Story</a></li>
                 <li><a href="#beginnings" class="nav-link">Our Beginnings</a></li>
                 <li><a href="#meeting" class="nav-link">How We Met</a></li>
                 <li><a href="#journey" class="nav-link">Our Journey</a></li>
@@ -81,6 +93,64 @@
         </div>
         <div class="scroll-indicator">
             <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Our Love Story Video Section -->
+    <section id="story-video" class="section section-story-video">
+        <div class="container">
+            <h2 class="section-title">Our Love Story</h2>
+            <p class="section-subtitle">Watch our beautiful journey unfold</p>
+
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <video id="loveStoryVideo" controls poster="images/couple.jpg">
+                        <source src="videos/our-love-story.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay" id="videoOverlay">
+                        <div class="play-button" id="playButton">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="video-loading" id="videoLoading">
+                            <div class="loading-spinner"></div>
+                            <p>Loading our story...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-info">
+                    <h3>💕 Our Complete Love Story</h3>
+                    <p>Experience the magic of our journey from childhood dreams to forever love. This video captures every precious moment, every milestone, and every emotion that brought us to where we are today.</p>
+
+                    <div class="story-highlights">
+                        <div class="highlight-item">
+                            <i class="fas fa-baby"></i>
+                            <span>Our Childhood Dreams</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Meeting in Pharmacy College</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-plane"></i>
+                            <span>Our American Adventure</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-heart"></i>
+                            <span>The Proposal & Forever</span>
+                        </div>
+                    </div>
+
+                    <div class="video-controls">
+                        <button class="btn btn-primary" id="watchStory">Watch Full Story</button>
+                        <button class="btn btn-secondary" id="muteButton">
+                            <i class="fas fa-volume-up"></i>
+                            <span>Unmute</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 

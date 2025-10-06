@@ -267,4 +267,130 @@ document.addEventListener('DOMContentLoaded', function() {
         img.src = src;
     });
 
-    // Story Slideshow Functionality
+    // Video Player Functionality
+    const video = document.getElementById('loveStoryVideo');
+    const playButton = document.getElementById('playButton');
+    const videoOverlay = document.getElementById('videoOverlay');
+    const videoLoading = document.getElementById('videoLoading');
+    const muteButton = document.getElementById('muteButton');
+    const watchStoryButton = document.getElementById('watchStory');
+
+    // Enhanced mobile video support
+    if (video && playButton) {
+        // Detect mobile devices for better touch handling
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                        (window.innerWidth <= 768 && window.innerHeight <= 1024);
+
+        if (isMobile) {
+            // Optimize video for mobile
+            video.setAttribute('playsinline', '');
+            video.setAttribute('webkit-playsinline', '');
+
+            // Prevent default touch behaviors that might interfere
+            videoOverlay.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+            });
+
+            playButton.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+            });
+
+            // Add mobile-specific loading message
+            video.addEventListener('loadstart', function() {
+                videoLoading.innerHTML = '<div class="loading-spinner"></div><p>Loading your love story...</p>';
+            });
+
+            // Handle mobile video loading
+            video.addEventListener('canplay', function() {
+                console.log('Video ready for mobile playback');
+            });
+
+            // Handle mobile video errors
+            video.addEventListener('error', function() {
+                const errorMsg = isMobile ?
+                    '<p>Video not loading on mobile. Please check your internet connection or try on desktop.</p>' :
+                    '<p>Video not found. Please add "our-love-story.mp4" to the videos folder.</p>';
+                videoLoading.innerHTML = errorMsg;
+            });
+        }
+
+        // Show loading initially
+        videoLoading.style.display = 'flex';
+
+        // Handle video loading
+        video.addEventListener('loadedmetadata', function() {
+            videoLoading.style.display = 'none';
+            videoOverlay.style.display = 'none';
+            console.log('Video loaded, duration:', video.duration);
+        });
+
+        video.addEventListener('error', function() {
+            const errorMsg = isMobile ?
+                '<p>Video not loading on mobile. Please check your internet connection or try on desktop.</p>' :
+                '<p>Video not found. Please add "our-love-story.mp4" to the videos folder.</p>';
+            videoLoading.innerHTML = errorMsg;
+            console.log('Video failed to load');
+        });
+
+        // Play button functionality
+        playButton.addEventListener('click', function() {
+            if (video.paused) {
+                video.play();
+                playButton.innerHTML = '<i class="fas fa-pause"></i>';
+                playButton.style.background = 'rgba(255, 107, 157, 1)';
+            } else {
+                video.pause();
+                playButton.innerHTML = '<i class="fas fa-play"></i>';
+                playButton.style.background = 'rgba(255, 107, 157, 0.9)';
+            }
+        });
+
+        // Video overlay click to play
+        videoOverlay.addEventListener('click', function() {
+            video.play();
+            videoOverlay.style.display = 'none';
+        });
+
+        // Video end handler
+        video.addEventListener('ended', function() {
+            playButton.innerHTML = '<i class="fas fa-play"></i>';
+            playButton.style.background = 'rgba(255, 107, 157, 0.9)';
+            videoOverlay.style.display = 'flex';
+        });
+
+        // Video pause handler
+        video.addEventListener('pause', function() {
+            playButton.innerHTML = '<i class="fas fa-play"></i>';
+            playButton.style.background = 'rgba(255, 107, 157, 0.9)';
+        });
+
+        // Video play handler
+        video.addEventListener('play', function() {
+            playButton.innerHTML = '<i class="fas fa-pause"></i>';
+            playButton.style.background = 'rgba(255, 107, 157, 1)';
+        });
+    }
+
+    // Mute button functionality
+    if (muteButton && video) {
+        muteButton.addEventListener('click', function() {
+            if (video.muted) {
+                video.muted = false;
+                muteButton.innerHTML = '<i class="fas fa-volume-up"></i><span>Unmute</span>';
+            } else {
+                video.muted = true;
+                muteButton.innerHTML = '<i class="fas fa-volume-mute"></i><span>Mute</span>';
+            }
+        });
+    }
+
+    // Watch story button
+    if (watchStoryButton && video) {
+        watchStoryButton.addEventListener('click', function() {
+            video.play();
+            videoOverlay.style.display = 'none';
+        });
+    }
+
+    console.log('💕 Wedding Love Story video functionality loaded!');
+});

@@ -806,9 +806,338 @@ p {
     font-weight: 700;
 }
 
-/* Future Section */
-.section-future {
-    background: var(--background-white);
+/* Story Video Section */
+.section-story-video {
+    background: linear-gradient(135deg, #fff9fc 0%, #f8bbd9 100%);
+    padding: 5rem 0;
+}
+
+.video-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.video-wrapper {
+    position: relative;
+    background: #000;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+#loveStoryVideo {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.play-button {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 107, 157, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+}
+
+.play-button:hover {
+    transform: scale(1.1);
+    background: rgba(255, 107, 157, 1);
+    box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
+}
+
+.video-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: white;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid #ff6b9d;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.video-info {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+}
+
+.video-info h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.story-highlights {
+    margin: 2rem 0;
+}
+
+.highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+    padding: 0.5rem;
+    background: rgba(255, 107, 157, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.highlight-item:hover {
+    background: rgba(255, 107, 157, 0.2);
+    transform: translateX(5px);
+}
+
+.highlight-item i {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.video-controls {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+#muteButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Mobile responsive for video section */
+@media (max-width: 768px) {
+    .video-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    #loveStoryVideo {
+        height: 250px;
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .video-wrapper {
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .play-button {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+
+    .video-overlay {
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    .video-info {
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .story-highlights {
+        margin: 1.5rem 0;
+    }
+
+    .highlight-item {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .video-controls {
+        justify-content: center;
+        gap: 0.8rem;
+        margin-top: 1.5rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Enhanced mobile responsiveness for video */
+@media (max-width: 480px) {
+    .section-story-video {
+        padding: 3rem 0;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    #loveStoryVideo {
+        height: 200px;
+        border-radius: 10px;
+    }
+
+    .video-wrapper {
+        border-radius: 10px;
+        margin-bottom: 1rem;
+    }
+
+    .play-button {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .video-info {
+        padding: 1rem;
+    }
+
+    .video-info h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .video-info p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }
+
+    .story-highlights {
+        margin: 1rem 0;
+    }
+
+    .highlight-item {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+        gap: 0.6rem;
+    }
+
+    .highlight-item i {
+        font-size: 1rem;
+    }
+
+    .video-controls {
+        flex-direction: column;
+        gap: 0.6rem;
+        margin-top: 1rem;
+    }
+
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+/* Touch-friendly controls for mobile */
+@media (hover: none) and (pointer: coarse) {
+    .play-button {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+        box-shadow: 0 6px 30px rgba(255, 107, 157, 0.5);
+    }
+
+    .play-button:active {
+        transform: scale(0.95);
+        background: rgba(255, 107, 157, 1);
+    }
+
+    .btn:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 10px rgba(255, 107, 157, 0.3);
+    }
+
+    .highlight-item:active {
+        transform: translateX(3px);
+        background: rgba(255, 107, 157, 0.25);
+    }
+}
+
+/* Landscape orientation fixes for mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+    .section-story-video {
+        padding: 2rem 0;
+    }
+
+    #loveStoryVideo {
+        height: 300px;
+    }
+
+    .video-container {
+        gap: 1.5rem;
+    }
+
+    .video-info {
+        padding: 1rem;
+    }
+}
+
+/* Prevent text selection on touch devices during interactions */
+@media (hover: none) and (pointer: coarse) {
+    .video-overlay,
+    .play-button,
+    .btn,
+    .highlight-item {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+    .video-wrapper {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+
+    #loveStoryVideo {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
 }
 
 .future-content {

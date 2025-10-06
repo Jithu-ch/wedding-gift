@@ -43,7 +43,9 @@
                 <li><a href="#beginnings" class="nav-link">Our Beginnings</a></li>
                 <li><a href="#meeting" class="nav-link">How We Met</a></li>
                 <li><a href="#journey" class="nav-link">Our Journey</a></li>
-                <li><a href="#future" class="nav-link">Our Future</a></li>
+                <li><a href="#countdown" class="nav-link">Wedding Countdown</a></li>
+                <li><a href="#love-calculator-section" class="nav-link">Love Calculator</a></li>
+                <li><a href="#guestbook" class="nav-link">Guestbook</a></li>
                 <li><a href="#gallery" class="nav-link">Memories</a></li>
             </ul>
             <div class="hamburger">
@@ -71,7 +73,7 @@
                 </p>
                 <div class="hero-buttons">
                     <a href="#beginnings" class="btn btn-primary">Start Our Story</a>
-                    <a href="#gallery" class="btn btn-secondary">View Memories</a>
+                    <a href="#countdown" class="btn btn-secondary">Wedding Countdown</a>
                 </div>
             </div>
             <div class="hero-image">
@@ -418,6 +420,94 @@
         </div>
     </section>
 
+    <!-- Wedding Countdown Section -->
+    <section id="countdown" class="section">
+        <div class="container">
+            <h2 class="section-title">Countdown to Our Special Day</h2>
+            <p class="section-subtitle">The moments are counting down to forever...</p>
+
+            <div class="countdown-timer" id="weddingCountdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <p class="love-counter">💕 Can't wait to be married! 💕</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Love Calculator Section -->
+    <section id="love-calculator-section" class="section">
+        <div class="container">
+            <h2 class="section-title">Love Calculator</h2>
+            <p class="section-subtitle">Discover your love compatibility with our magical calculator!</p>
+
+            <div class="love-calculator">
+                <div class="love-inputs">
+                    <div class="love-input-group">
+                        <label for="partner1Name">Your Name</label>
+                        <input type="text" id="partner1Name" class="love-input" placeholder="Enter your name">
+                    </div>
+                    <div class="love-input-group">
+                        <label for="partner2Name">Partner's Name</label>
+                        <input type="text" id="partner2Name" class="love-input" placeholder="Enter partner's name">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateLove()">Calculate Our Love 💕</button>
+
+                <div class="love-result" id="loveResult" style="display: none;">
+                    <div class="love-percentage" id="lovePercentage">100%</div>
+                    <div class="love-message" id="loveMessage">You are made for each other!</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guestbook Section -->
+    <section id="guestbook" class="section guestbook-section">
+        <div class="bg-pattern"></div>
+        <div class="container guestbook-container">
+            <h2 class="section-title">Guestbook</h2>
+            <p class="section-subtitle">Share your love and well wishes for our special day!</p>
+
+            <div class="guestbook-form">
+                <form id="guestbookForm">
+                    <div class="form-group">
+                        <label for="guestName">Your Name</label>
+                        <input type="text" id="guestName" name="guestName" class="form-input" required placeholder="Enter your beautiful name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="guestMessage">Your Message</label>
+                        <textarea id="guestMessage" name="guestMessage" class="form-input" rows="4" required placeholder="Share your love, blessings, and warm wishes..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Send Love & Blessings 💕</button>
+                </form>
+            </div>
+
+            <div class="guestbook-messages" id="guestbookMessages">
+                <!-- Guest messages will appear here -->
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -435,8 +525,40 @@
             <div class="footer-bottom">
                 <p>&copy; 2024 Our Love Story. Made with love for the happy couple.</p>
             </div>
-        </div>
     </footer>
+
+    <!-- Particle Effects -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Music Player -->
+    <div class="music-player" id="musicPlayer">
+        <div class="music-controls">
+            <button class="music-btn" id="playMusic" title="Play/Pause Music">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="music-btn" id="nextTrack" title="Next Track">
+                <i class="fas fa-forward"></i>
+            </button>
+            <button class="music-btn" id="toggleMusicPlayer" title="Hide Player">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="music-info">
+            <div class="music-title" id="musicTitle">Romantic Wedding Music</div>
+            <div class="music-artist" id="musicArtist">Beautiful Melodies</div>
+            <div class="music-progress">
+                <div class="music-progress-bar" id="musicProgress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="pageTransition">
+        <div class="transition-content">
+            <div class="transition-title">💕 Love Story 💕</div>
+            <div class="transition-subtitle">Loading magic...</div>
+        </div>
+    </div>
 
     <!-- Custom JavaScript -->
     <script src="js/script.js"></script>

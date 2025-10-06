@@ -394,3 +394,441 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('💕 Wedding Love Story video functionality loaded!');
 });
+
+// Wedding Countdown Timer
+function updateCountdown() {
+    const weddingDate = new Date('2025-10-11T23:32:00+05:30').getTime();
+    const now = new Date().getTime();
+    const distance = weddingDate - now;
+
+    if (distance > 0) {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+}
+
+// Love Calculator
+function calculateLove() {
+    const name1 = document.getElementById('partner1Name').value.trim();
+    const name2 = document.getElementById('partner2Name').value.trim();
+
+    if (!name1 || !name2) {
+        showNotification('Please enter both names!', 'error');
+        return;
+    }
+
+    // Fun algorithm for love calculation
+    let loveScore = 0;
+    const combined = (name1 + name2).toLowerCase();
+
+    for (let i = 0; i < combined.length; i++) {
+        loveScore += combined.charCodeAt(i);
+    }
+
+    loveScore = loveScore % 101; // 0-100
+
+    // Special cases for wedding couple
+    if ((name1.toLowerCase().includes('veera') && name2.toLowerCase().includes('jyothsna')) ||
+        (name1.toLowerCase().includes('jyothsna') && name2.toLowerCase().includes('veera'))) {
+        loveScore = 100;
+    }
+
+    const result = document.getElementById('loveResult');
+    const percentage = document.getElementById('lovePercentage');
+    const message = document.getElementById('loveMessage');
+
+    percentage.textContent = loveScore + '%';
+
+    if (loveScore >= 90) {
+        message.textContent = '💕 Perfect match! You are soulmates destined for eternity!';
+    } else if (loveScore >= 70) {
+        message.textContent = '💖 Beautiful connection! Your love story is just beginning!';
+    } else if (loveScore >= 50) {
+        message.textContent = '💗 Sweet compatibility! Keep nurturing your love!';
+    } else {
+        message.textContent = '💓 Every love story is unique! Keep building your connection!';
+    }
+
+    result.style.display = 'block';
+
+    // Animate the result
+    result.style.animation = 'none';
+    setTimeout(() => {
+        result.style.animation = 'resultReveal 0.8s ease-out';
+    }, 100);
+
+    // Confetti effect for high scores
+    if (loveScore >= 80) {
+        createConfetti();
+    }
+}
+
+// Guestbook functionality
+document.getElementById('guestbookForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('guestName').value.trim();
+    const message = document.getElementById('guestMessage').value.trim();
+
+    if (!name || !message) {
+        showNotification('Please fill in all fields!', 'error');
+        return;
+    }
+
+    // Add guest message to the page
+    addGuestMessage(name, message);
+
+    // Clear form
+    this.reset();
+
+    // Show success message
+    showNotification('Thank you for your beautiful message! 💕', 'success');
+});
+
+// Add guest message to the page
+function addGuestMessage(name, message) {
+    const messagesContainer = document.getElementById('guestbookMessages');
+    const messageElement = document.createElement('div');
+    messageElement.className = 'guest-message';
+
+    const now = new Date();
+    const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+    messageElement.innerHTML = `
+        <div class="message-header">
+            <div class="message-author">${name}</div>
+            <div class="message-date">${dateStr}</div>
+        </div>
+        <div class="message-content">${message}</div>
+    `;
+
+    messagesContainer.appendChild(messageElement);
+
+    // Animate the new message
+    messageElement.style.animation = 'messageSlideIn 0.6s ease-out';
+}
+
+// Particle Effects
+function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 15;
+
+    for (let i = 0; i < particleCount; i++) {
+        setTimeout(() => {
+            createParticle();
+        }, i * 1000);
+    }
+
+    setInterval(createParticle, 3000);
+}
+
+function createParticle() {
+    const particlesContainer = document.getElementById('particles');
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+
+    // Random position and animation delay
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 5 + 's';
+
+    particlesContainer.appendChild(particle);
+
+    // Remove particle after animation
+    setTimeout(() => {
+        particle.remove();
+    }, 25000);
+}
+
+// Music Player
+let currentTrack = 0;
+const tracks = [
+    // { title: 'Romantic Wedding Waltz', artist: 'Orchestra', src: 'audio/wedding-waltz.mp3' },
+    { title: 'faded', artist: 'Piano Solo', src: 'audio/faded-love-theme.mp3' }
+    // { title: 'Eternal Love Song', artist: 'Violin & Piano', src: 'audio/eternal-love.mp3' }
+];
+
+let audio = null;
+
+function initMusicPlayer() {
+    // Create audio element if it doesn't exist
+    if (!audio) {
+        audio = new Audio();
+        audio.volume = 0.2; // Reduced to 20% for calm, peaceful background music
+        audio.loop = true; // Enable looping for continuous peaceful ambiance
+
+        // Handle track end
+        audio.addEventListener('ended', function() {
+            playNextTrack();
+        });
+
+        // Update progress
+        audio.addEventListener('timeupdate', updateMusicProgress);
+
+        // Add fade-in effect when music starts
+        audio.addEventListener('play', function() {
+            this.volume = 0;
+            let fadeIn = setInterval(() => {
+                if (this.volume < 0.2) {
+                    this.volume = Math.min(this.volume + 0.05, 0.2);
+                } else {
+                    clearInterval(fadeIn);
+                }
+            }, 200);
+        });
+
+        // Add fade-out effect when music pauses
+        audio.addEventListener('pause', function() {
+            let fadeOut = setInterval(() => {
+                if (this.volume > 0.05) {
+                    this.volume = Math.max(this.volume - 0.05, 0);
+                } else {
+                    clearInterval(fadeOut);
+                }
+            }, 100);
+        });
+    }
+
+    loadTrack(currentTrack);
+}
+
+function loadTrack(index) {
+    if (tracks[index]) {
+        audio.src = tracks[index].src;
+        document.getElementById('musicTitle').textContent = tracks[index].title;
+        document.getElementById('musicArtist').textContent = tracks[index].artist;
+    }
+}
+
+function playMusic() {
+    if (!audio) initMusicPlayer();
+
+    if (audio.paused) {
+        audio.play();
+        document.getElementById('playMusic').innerHTML = '<i class="fas fa-pause"></i>';
+    } else {
+        audio.pause();
+        document.getElementById('playMusic').innerHTML = '<i class="fas fa-play"></i>';
+    }
+}
+
+function playNextTrack() {
+    currentTrack = (currentTrack + 1) % tracks.length;
+    loadTrack(currentTrack);
+    if (!audio.paused) {
+        audio.play();
+    }
+}
+
+function updateMusicProgress() {
+    if (audio.duration) {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('musicProgress').style.width = progress + '%';
+    }
+}
+
+// Page Transitions
+function showPageTransition() {
+    const transition = document.getElementById('pageTransition');
+    transition.classList.add('active');
+}
+
+function hidePageTransition() {
+    const transition = document.getElementById('pageTransition');
+    transition.classList.remove('active');
+}
+
+// Smooth scrolling with transition
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        showPageTransition();
+
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            setTimeout(() => {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                setTimeout(hidePageTransition, 500);
+            }, 200);
+        }
+    });
+});
+
+// Confetti Effect
+function createConfetti() {
+    const confettiCount = 50;
+    const colors = ['#ff6b9d', '#ffd54f', '#ff8a80', '#e1bee7', '#f8bbd9'];
+
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.style.position = 'fixed';
+        confetti.style.width = '10px';
+        confetti.style.height = '10px';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.top = '-10px';
+        confetti.style.borderRadius = '50%';
+        confetti.style.zIndex = '9999';
+        confetti.style.pointerEvents = 'none';
+        confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s linear forwards`;
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => {
+            confetti.remove();
+        }, 5000);
+    }
+}
+
+// Add confetti animation to CSS dynamically
+const confettiStyle = document.createElement('style');
+confettiStyle.textContent = `
+@keyframes confettiFall {
+    0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+`;
+document.head.appendChild(confettiStyle);
+
+// Notification System
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+
+    // Add styles
+    notification.style.position = 'fixed';
+    notification.style.top = '2rem';
+    notification.style.right = '2rem';
+    notification.style.padding = '1rem 1.5rem';
+    notification.style.borderRadius = '8px';
+    notification.style.color = 'white';
+    notification.style.fontWeight = '500';
+    notification.style.zIndex = '10000';
+    notification.style.transform = 'translateX(100%)';
+    notification.style.transition = 'transform 0.3s ease';
+
+    if (type === 'success') {
+        notification.style.background = 'linear-gradient(135deg, #4caf50, #66bb6a)';
+    } else if (type === 'error') {
+        notification.style.background = 'linear-gradient(135deg, #f44336, #ef5350)';
+    } else {
+        notification.style.background = 'linear-gradient(135deg, #ff6b9d, #ff8a80)';
+    }
+
+    document.body.appendChild(notification);
+
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+
+    // Remove after 4 seconds
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 4000);
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Start countdown timer
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Initialize particle effects
+    createParticles();
+
+    // Initialize music player
+    initMusicPlayer();
+
+    // Add sparkle effects to interactive elements
+    document.querySelectorAll('.btn, .nav-link, .meeting-card, .journey-card, .future-card').forEach(element => {
+        element.addEventListener('mouseenter', function() {
+            createSparkle(this);
+        });
+    });
+
+    // Add 3D card effects
+    document.querySelectorAll('.meeting-card, .journey-card, .future-card').forEach(card => {
+        card.classList.add('card-3d');
+    });
+
+    // Music player event listeners
+    document.getElementById('playMusic').addEventListener('click', playMusic);
+    document.getElementById('nextTrack').addEventListener('click', playNextTrack);
+    document.getElementById('toggleMusicPlayer').addEventListener('click', function() {
+        const player = document.getElementById('musicPlayer');
+        player.style.display = 'none';
+    });
+
+    // Add click effects to all interactive elements
+    document.querySelectorAll('.interactive-element, .btn, .highlight-item').forEach(element => {
+        element.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+    });
+
+    console.log('💕 Enhanced Wedding Love Story website loaded with magic!');
+});
+
+// Create sparkle effect
+function createSparkle(element) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+
+    const rect = element.getBoundingClientRect();
+    sparkle.style.left = Math.random() * rect.width + rect.left + 'px';
+    sparkle.style.top = Math.random() * rect.height + rect.top + 'px';
+
+    document.body.appendChild(sparkle);
+
+    setTimeout(() => {
+        sparkle.remove();
+    }, 3000);
+}
+
+// Enhanced scroll animations
+window.addEventListener('scroll', function() {
+    const scrolled = window.pageYOffset;
+
+    // Parallax effect for hero
+    const hero = document.querySelector('.hero');
+    if (hero) {
+        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }
+
+    // Animate timeline items
+    document.querySelectorAll('.timeline-item, .journey-item').forEach((item, index) => {
+        const offset = item.offsetTop - window.innerHeight + 100;
+
+        if (scrolled > offset) {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }
+    });
+});
+
+// Love counter animation
+function animateLoveCounter() {
+    const counter = document.querySelector('.love-counter');
+    if (counter) {
+        counter.style.animation = 'lovePulse 2s ease-in-out infinite';
+    }
+}
+
+setInterval(animateLoveCounter, 2000);

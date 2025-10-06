@@ -550,7 +550,7 @@ function createParticle() {
 let currentTrack = 0;
 const tracks = [
     // { title: 'Romantic Wedding Waltz', artist: 'Orchestra', src: 'audio/wedding-waltz.mp3' },
-    { title: 'faded', artist: 'Piano Solo', src: 'audio/faded-love-theme.mp3' }
+    { title: 'Love Theme', artist: 'prabhas', src: 'audio/darlingpraba.mp3' }
     // { title: 'Eternal Love Song', artist: 'Violin & Piano', src: 'audio/eternal-love.mp3' }
 ];
 

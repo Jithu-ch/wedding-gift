@@ -21,11 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Smooth scrolling for navigation links
+    // Smooth scrolling for navigation links - Simplified
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const targetId = this.getAttribute('href');
+            const target = document.querySelector(targetId);
+
             if (target) {
                 target.scrollIntoView({
                     behavior: 'smooth',
@@ -66,46 +68,28 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(section);
     });
 
-    // Gallery functionality
+    // Gallery functionality - Better approach for different image sizes
     const galleryItems = document.querySelectorAll('.gallery-item');
-    const modal = document.getElementById('galleryModal');
-    const modalImage = document.getElementById('modalImage');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDescription = document.getElementById('modalDescription');
-    const closeModal = document.querySelector('.close-modal');
 
     galleryItems.forEach(item => {
         item.addEventListener('click', function() {
             const img = this.querySelector('.gallery-image');
-            const title = this.querySelector('h4').textContent;
-            const description = this.querySelector('p').textContent;
-
-            modalImage.src = img.src;
-            modalImage.alt = img.alt;
-            modalTitle.textContent = title;
-            modalDescription.textContent = description;
-
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        });
-    });
-
-    if (closeModal) {
-        closeModal.addEventListener('click', closeGalleryModal);
-    }
-
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeGalleryModal();
+            if (img) {
+                // Create a simple overlay instead of modal
+                createImageOverlay(img.src, img.alt);
             }
         });
-    }
 
-    function closeGalleryModal() {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
+        // Add hover effects for better UX
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.02)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
 
     // Gallery filter functionality
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -414,83 +398,68 @@ function updateCountdown() {
     }
 }
 
-// Love Calculator
+// Love Calculator - Simplified
 function calculateLove() {
-    const name1 = document.getElementById('partner1Name').value.trim();
-    const name2 = document.getElementById('partner2Name').value.trim();
+    const name1 = document.getElementById('partner1Name');
+    const name2 = document.getElementById('partner2Name');
 
-    if (!name1 || !name2) {
-        showNotification('Please enter both names!', 'error');
-        return;
-    }
+    if (name1 && name2) {
+        const partner1Name = name1.value.trim();
+        const partner2Name = name2.value.trim();
 
-    // Fun algorithm for love calculation
-    let loveScore = 0;
-    const combined = (name1 + name2).toLowerCase();
+        if (partner1Name && partner2Name) {
+            // Simple calculation
+            let loveScore = (partner1Name.length + partner2Name.length) * 7 % 101;
 
-    for (let i = 0; i < combined.length; i++) {
-        loveScore += combined.charCodeAt(i);
-    }
+            // Special case for wedding couple
+            if ((partner1Name.toLowerCase().includes('veera') && partner2Name.toLowerCase().includes('jyothsna')) ||
+                (partner1Name.toLowerCase().includes('jyothsna') && partner2Name.toLowerCase().includes('veera'))) {
+                loveScore = 100;
+            }
 
-    loveScore = loveScore % 101; // 0-100
+            const result = document.getElementById('loveResult');
+            const percentage = document.getElementById('lovePercentage');
+            const message = document.getElementById('loveMessage');
 
-    // Special cases for wedding couple
-    if ((name1.toLowerCase().includes('veera') && name2.toLowerCase().includes('jyothsna')) ||
-        (name1.toLowerCase().includes('jyothsna') && name2.toLowerCase().includes('veera'))) {
-        loveScore = 100;
-    }
-
-    const result = document.getElementById('loveResult');
-    const percentage = document.getElementById('lovePercentage');
-    const message = document.getElementById('loveMessage');
-
-    percentage.textContent = loveScore + '%';
-
-    if (loveScore >= 90) {
-        message.textContent = '💕 Perfect match! You are soulmates destined for eternity!';
-    } else if (loveScore >= 70) {
-        message.textContent = '💖 Beautiful connection! Your love story is just beginning!';
-    } else if (loveScore >= 50) {
-        message.textContent = '💗 Sweet compatibility! Keep nurturing your love!';
-    } else {
-        message.textContent = '💓 Every love story is unique! Keep building your connection!';
-    }
-
-    result.style.display = 'block';
-
-    // Animate the result
-    result.style.animation = 'none';
-    setTimeout(() => {
-        result.style.animation = 'resultReveal 0.8s ease-out';
-    }, 100);
-
-    // Confetti effect for high scores
-    if (loveScore >= 80) {
-        createConfetti();
+            if (result && percentage && message) {
+                percentage.textContent = loveScore + '%';
+                message.textContent = loveScore >= 80 ? '💕 Perfect Match!' : '💖 Beautiful Love!';
+                result.style.display = 'block';
+            }
+        } else {
+            alert('Please enter both names!');
+        }
     }
 }
 
-// Guestbook functionality
-document.getElementById('guestbookForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+// Guestbook functionality - Simplified
+const guestbookForm = document.getElementById('guestbookForm');
+if (guestbookForm) {
+    guestbookForm.addEventListener('submit', function(e) {
+        e.preventDefault();
 
-    const name = document.getElementById('guestName').value.trim();
-    const message = document.getElementById('guestMessage').value.trim();
+        const guestName = document.getElementById('guestName');
+        const guestMessage = document.getElementById('guestMessage');
 
-    if (!name || !message) {
-        showNotification('Please fill in all fields!', 'error');
-        return;
-    }
+        if (guestName && guestMessage) {
+            const name = guestName.value.trim();
+            const message = guestMessage.value.trim();
 
-    // Add guest message to the page
-    addGuestMessage(name, message);
+            if (name && message) {
+                // Add message to page
+                addGuestMessage(name, message);
 
-    // Clear form
-    this.reset();
+                // Clear form
+                guestbookForm.reset();
 
-    // Show success message
-    showNotification('Thank you for your beautiful message! 💕', 'success');
-});
+                // Show success
+                alert('Thank you for your beautiful message! 💕');
+            } else {
+                alert('Please fill in all fields!');
+            }
+        }
+    });
+}
 
 // Add guest message to the page
 function addGuestMessage(name, message) {
@@ -546,12 +515,71 @@ function createParticle() {
     }, 25000);
 }
 
+// Create image overlay for gallery
+function createImageOverlay(src, alt) {
+    // Remove existing overlay if any
+    const existingOverlay = document.querySelector('.image-overlay-view');
+    if (existingOverlay) {
+        existingOverlay.remove();
+    }
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'image-overlay-view';
+    overlay.innerHTML = `
+        <div class="image-overlay-backdrop"></div>
+        <div class="image-overlay-content">
+            <img src="${src}" alt="${alt}" class="overlay-image">
+            <button class="overlay-close">&times;</button>
+        </div>
+    `;
+
+    // Add styles
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
+    // Close on click outside or close button
+    overlay.querySelector('.image-overlay-backdrop').addEventListener('click', closeImageOverlay);
+    overlay.querySelector('.overlay-close').addEventListener('click', closeImageOverlay);
+
+    // Close on escape key
+    const escapeHandler = (e) => {
+        if (e.key === 'Escape') {
+            closeImageOverlay();
+            document.removeEventListener('keydown', escapeHandler);
+        }
+    };
+    document.addEventListener('keydown', escapeHandler);
+}
+
+function closeImageOverlay() {
+    const overlay = document.querySelector('.image-overlay-view');
+    if (overlay) {
+        overlay.style.animation = 'fadeOut 0.3s ease forwards';
+        setTimeout(() => {
+            overlay.remove();
+            document.body.style.overflow = 'auto';
+        }, 300);
+    }
+}
+
 // Music Player
 let currentTrack = 0;
 const tracks = [
-    // { title: 'Romantic Wedding Waltz', artist: 'Orchestra', src: 'audio/wedding-waltz.mp3' },
     { title: 'Love Theme', artist: 'prabhas', src: 'audio/darlingpraba.mp3' }
-    // { title: 'Eternal Love Song', artist: 'Violin & Piano', src: 'audio/eternal-love.mp3' }
 ];
 
 let audio = null;
@@ -636,12 +664,16 @@ function updateMusicProgress() {
 // Page Transitions
 function showPageTransition() {
     const transition = document.getElementById('pageTransition');
-    transition.classList.add('active');
+    if (transition) {
+        transition.classList.add('active');
+    }
 }
 
 function hidePageTransition() {
     const transition = document.getElementById('pageTransition');
-    transition.classList.remove('active');
+    if (transition) {
+        transition.classList.remove('active');
+    }
 }
 
 // Smooth scrolling with transition
@@ -765,12 +797,14 @@ document.addEventListener('DOMContentLoaded', function() {
         card.classList.add('card-3d');
     });
 
-    // Music player event listeners
+    // Music Player event listeners
     document.getElementById('playMusic').addEventListener('click', playMusic);
     document.getElementById('nextTrack').addEventListener('click', playNextTrack);
     document.getElementById('toggleMusicPlayer').addEventListener('click', function() {
         const player = document.getElementById('musicPlayer');
-        player.style.display = 'none';
+        if (player) {
+            player.style.display = player.style.display === 'none' ? '' : 'none';
+        }
     });
 
     // Add click effects to all interactive elements
@@ -785,22 +819,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('💕 Enhanced Wedding Love Story website loaded with magic!');
 });
-
-// Create sparkle effect
-function createSparkle(element) {
-    const sparkle = document.createElement('div');
-    sparkle.className = 'sparkle';
-
-    const rect = element.getBoundingClientRect();
-    sparkle.style.left = Math.random() * rect.width + rect.left + 'px';
-    sparkle.style.top = Math.random() * rect.height + rect.top + 'px';
-
-    document.body.appendChild(sparkle);
-
-    setTimeout(() => {
-        sparkle.remove();
-    }, 3000);
-}
 
 // Enhanced scroll animations
 window.addEventListener('scroll', function() {
